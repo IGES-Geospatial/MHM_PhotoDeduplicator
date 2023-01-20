@@ -1,4 +1,4 @@
-name: Scheduled MHM Photo Filehashing and Deduplication
+name: MHM Photo Filehashing and Deduplication
 
 on:
   schedule:
@@ -22,8 +22,8 @@ jobs:
         run: pip install -r requirements.txt
       - name: Check for new photos and add new hashes to parquet
         run: python FileHashesToParquet.py
-      - name: Remove duplicates and recombine to CSV
-        run: python FileHashDedupToCSV.py
+      - name: Remove duplicates and recombine to USF csv
+        run: python FileHashDedupToUSF.py
       - name: commit files
         uses: EndBug/add-and-commit@v9
         with:
