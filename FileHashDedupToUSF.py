@@ -53,11 +53,11 @@ df = df.fillna('')
 df = df.replace('null', '', regex=False)
 # Add "mhm_" prefix
 df = df.add_prefix('mhm_')
-# Rename fields
+# Match USF field names
 df.rename(columns = {'mhm_MeasurementLatitude':'mhm_Latitude', 'mhm_MeasurementLongitude':'mhm_Longitude'}, inplace = True)
-# Match Field Order
+# Match USF field order
 df = df[['mhm_protocol', 'mhm_organizationId', 'mhm_organizationName', 'mhm_siteId', 'mhm_siteName', 'mhm_ExtraData', 'mhm_AbdomenCloseupPhotoUrls', 'mhm_LarvaeCount', 'mhm_MosquitoEggs', 'mhm_LocationAccuracyM', 'mhm_MosquitoEggCount', 'mhm_Comments', 'mhm_WaterSourcePhotoUrls', 'mhm_Latitude', 'mhm_Longitude', 'mhm_MosquitoHabitatMapperId', 'mhm_BreedingGroundEliminated', 'mhm_MeasuredAt', 'mhm_MeasurementElevation', 'mhm_Userid', 'mhm_Genus', 'mhm_LocationMethod', 'mhm_WaterSource', 'mhm_MosquitoAdults', 'mhm_Species', 'mhm_MosquitoPupae', 'mhm_DataSource', 'mhm_LarvaFullBodyPhotoUrls', 'mhm_LastIdentifyStage', 'mhm_WaterSourceType', 'mhm_GlobeTeams']]
 
 # save to CSV
-csv_path = "./MHM_NoDups.csv"
+csv_path = "./MHM_USF.csv"
 df.to_csv(csv_path, sep=',', index=False, encoding='utf-8', quoting=csv.QUOTE_ALL, quotechar='"', escapechar='"')
