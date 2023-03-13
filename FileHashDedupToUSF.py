@@ -57,6 +57,9 @@ df = df.add_prefix('mhm_')
 df.rename(columns = {'mhm_MeasurementLatitude':'mhm_Latitude', 'mhm_MeasurementLongitude':'mhm_Longitude'}, inplace = True)
 # Match USF field order
 df = df[['mhm_protocol', 'mhm_organizationId', 'mhm_organizationName', 'mhm_siteId', 'mhm_siteName', 'mhm_ExtraData', 'mhm_AbdomenCloseupPhotoUrls', 'mhm_LarvaeCount', 'mhm_MosquitoEggs', 'mhm_LocationAccuracyM', 'mhm_MosquitoEggCount', 'mhm_Comments', 'mhm_WaterSourcePhotoUrls', 'mhm_Latitude', 'mhm_Longitude', 'mhm_MosquitoHabitatMapperId', 'mhm_BreedingGroundEliminated', 'mhm_MeasuredAt', 'mhm_MeasurementElevation', 'mhm_Userid', 'mhm_Genus', 'mhm_LocationMethod', 'mhm_WaterSource', 'mhm_MosquitoAdults', 'mhm_Species', 'mhm_MosquitoPupae', 'mhm_DataSource', 'mhm_LarvaFullBodyPhotoUrls', 'mhm_LastIdentifyStage', 'mhm_WaterSourceType', 'mhm_GlobeTeams']]
+# Drop any rows missing Latitude or Longitude values
+df = df[df.mhm_Latitude != '']
+df = df[df.mhm_Longitude != '']
 
 # save to CSV
 csv_path = "./MHM_USF.csv"
