@@ -20,7 +20,7 @@ Further analysis and reporting on the issue of photo duplication in the MHM data
 + Preserving the first instance of a photo that was later duplicated
 + Preserving all observations, even if no unique photos are present
 
-Exploratory notebook with interactive stepwise execution via [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/IGES-Geospatial/JupyterLabBinder/HEAD?urlpath=lab/tree/MHM_DuplicatePhotoNotebook/MHM_DuplicatePhotoNotebook.ipynb)
+Exploratory notebook with interactive stepwise execution via Binder: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/IGES-Geospatial/JupyterLabBinder/HEAD?urlpath=lab/tree/MHM_DuplicatePhotoNotebook/MHM_DuplicatePhotoNotebook.ipynb)
 
 *More information about the GLOBE Dataset can be found in the [GLOBE Data User Guide v2.0](https://www.globe.gov/documents/10157/2592674/GLOBE+Data+User+Guide_v2_final.pdf).*
 
