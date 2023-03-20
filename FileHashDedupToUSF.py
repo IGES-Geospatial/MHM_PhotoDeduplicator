@@ -41,10 +41,41 @@ a.rename(columns = {'PhotoUrl':'AbdomenCloseupPhotoUrls'}, inplace = True)
 a["AbdomenCloseupPhotoUrls"] = a["AbdomenCloseupPhotoUrls"].str.join("; ")
 
 #Concat into one dataframe with rows containing combined photo lists for each type
-df = pd.concat([l,w,a], ignore_index=True)
+df = pd.concat([l,w,a], ignore_index=True).groupby(["MosquitoHabitatMapperId"], as_index=False).first()
 
-# Combine into dataframe with one row for each observation
-df = df.groupby(["MosquitoHabitatMapperId"], as_index=False).first()
+# Append Date Columns from JSON API response, matched on observation ID
+# Import Libraries
+import requests
+import json
+import datetime
+# Define the GLOBE API request URL
+base_url = "https://api.globe.gov/search/v1/measurement/protocol/measureddate/"
+requestParameters = {
+    "protocols": "mosquito_habitat_mapper",
+    "startdate": "2017-05-01",
+    "enddate" : datetime.datetime.utcnow().date(),
+    "geojson" : "FALSE", 
+    "sample" : "FALSE"
+}
+# Make the request
+response = requests.get(base_url, params=requestParameters)
+# Keep the results
+results = response.json()["results"]
+# Pass the results as a Dataframe
+df_t = pd.DataFrame(results)
+# Expand the nested 'data' column by listing the contents and passing as a new dataframe
+df_t = pd.concat([df_t, pd.DataFrame(list(df_t['data']))], axis=1)
+#Drop the previously nested data column
+df_t = df_t.drop('data', axis=1)
+#Rename/Shorten Columns
+df_t.columns = df_t.columns.str.replace('mosquitohabitatmapper', '')
+# Keep the temporal columns and MosquitoHabitatMapperId
+df_t = df_t[['MosquitoHabitatMapperId', 'measuredDate', 'createDate', 'updateDate', 'publishDate']]
+# Treat all columns as strings
+df_t = df_t.astype(str)
+
+# Append temporal fields, matched on MosquitoHabitatMapperId
+df = df.merge(df_t, how='inner', on='MosquitoHabitatMapperId', suffixes=(False, False))
 
 # Match formatting of original fields
 # Replace NA values with empty string
@@ -56,7 +87,7 @@ df = df.add_prefix('mhm_')
 # Match USF field names
 df.rename(columns = {'mhm_MeasurementLatitude':'mhm_Latitude', 'mhm_MeasurementLongitude':'mhm_Longitude'}, inplace = True)
 # Match USF field order
-df = df[['mhm_protocol', 'mhm_organizationId', 'mhm_organizationName', 'mhm_siteId', 'mhm_siteName', 'mhm_ExtraData', 'mhm_AbdomenCloseupPhotoUrls', 'mhm_LarvaeCount', 'mhm_MosquitoEggs', 'mhm_LocationAccuracyM', 'mhm_MosquitoEggCount', 'mhm_Comments', 'mhm_WaterSourcePhotoUrls', 'mhm_Latitude', 'mhm_Longitude', 'mhm_MosquitoHabitatMapperId', 'mhm_BreedingGroundEliminated', 'mhm_MeasuredAt', 'mhm_MeasurementElevation', 'mhm_Userid', 'mhm_Genus', 'mhm_LocationMethod', 'mhm_WaterSource', 'mhm_MosquitoAdults', 'mhm_Species', 'mhm_MosquitoPupae', 'mhm_DataSource', 'mhm_LarvaFullBodyPhotoUrls', 'mhm_LastIdentifyStage', 'mhm_WaterSourceType', 'mhm_GlobeTeams']]
+df = df[['mhm_protocol', 'mhm_measuredDate', 'mhm_createDate', 'mhm_updateDate', 'mhm_publishDate', 'mhm_organizationId', 'mhm_organizationName', 'mhm_siteId', 'mhm_siteName', 'mhm_ExtraData', 'mhm_AbdomenCloseupPhotoUrls', 'mhm_LarvaeCount', 'mhm_MosquitoEggs', 'mhm_LocationAccuracyM', 'mhm_MosquitoEggCount', 'mhm_Comments', 'mhm_WaterSourcePhotoUrls', 'mhm_Latitude', 'mhm_Longitude', 'mhm_MosquitoHabitatMapperId', 'mhm_BreedingGroundEliminated', 'mhm_MeasuredAt', 'mhm_MeasurementElevation', 'mhm_Userid', 'mhm_Genus', 'mhm_LocationMethod', 'mhm_WaterSource', 'mhm_MosquitoAdults', 'mhm_Species', 'mhm_MosquitoPupae', 'mhm_DataSource', 'mhm_LarvaFullBodyPhotoUrls', 'mhm_LastIdentifyStage', 'mhm_WaterSourceType', 'mhm_GlobeTeams']]
 # Drop any rows missing Latitude or Longitude values
 df = df[df.mhm_Latitude != '']
 df = df[df.mhm_Longitude != '']
