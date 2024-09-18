@@ -9,6 +9,7 @@ import datetime
 import csv
 import hashlib
 import pyarrow
+import time
 
 # GET MHM DATA from GLOBE API
 
@@ -108,6 +109,7 @@ def setSHA256Hash(url):
     response = requests.get(url)
     content = bytes(response.content)
     readable_hash = hashlib.sha256(content).hexdigest();
+    time.sleep(15)
     return str(readable_hash)
 
 # Generate FileHashes for new photos
