@@ -1,5 +1,5 @@
-Summary of image duplication in the GLOBE MHM dataset as of 2025-05-10 13:28:17.806014:
-    Occurrences of image duplication: 19097/73721
-    Number of unique images that have been duplicated: 5339/59963
-    Number of observations containing duplicated images: 8764/37330
-    Number of unique Userids submitting duplicated images: 1513/6444
+Summary of image duplication in the GLOBE MHM dataset as of 2025-05-11 13:27:33.115740:
+    Occurrences of image duplication: 19097/73729
+    Number of unique images that have been duplicated: 5339/59971
+    Number of observations containing duplicated images: 8764/37335
+    Number of unique Userids submitting duplicated images: 1513/6445
