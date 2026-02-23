@@ -1,4 +1,4 @@
-Summary of image duplication in the GLOBE MHM dataset as of 2026-02-22 13:45:47.387696:
+Summary of image duplication in the GLOBE MHM dataset as of 2026-02-23 14:07:47.740536:
     Occurrences of image duplication: 19782/76951
     Number of unique images that have been duplicated: 5545/62714
     Number of observations containing duplicated images: 9193/39370
