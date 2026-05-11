@@ -10,11 +10,13 @@ on:
 jobs:
   filehashdedup:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.9'
           cache: 'pip'
@@ -25,6 +27,6 @@ jobs:
       - name: Remove duplicates and recombine to USF csv
         run: python FileHashDedupToUSF.py
       - name: commit files
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@v10
         with:
           default_author: github_actions
